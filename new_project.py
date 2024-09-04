@@ -5,9 +5,9 @@ tia_config.load()
 
 tia_client = Client()
 
-tia_client.open_project("C:\\Users\\user\\Documents\\Automation", "NAME")
+tia_client.open_project("C:\\Users\\Miguel\\Documents\\Openness-Automation", "08-15-2024(Production)_MiguelPID")
 
-tia_client.project.save_as("NAME_2")
+tia_client.project.save_as("08-15-2024(Production)_MiguelPID_2")
 
 plcs = tia_client.project.get_plcs()
 

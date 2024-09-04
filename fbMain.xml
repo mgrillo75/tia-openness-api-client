@@ -1,0 +1,2076 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V17" />
+  <DocumentInfo>
+    <Created>2024-09-04T07:03:07.1988734Z</Created>
+    <ExportSetting>None</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V17 Update 7</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>TIA Portal Openness</DisplayName>
+        <DisplayVersion>V17 Update 7</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>TIA Portal Version Control Interface</DisplayName>
+        <DisplayVersion>V17</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>SINAMICS Startdrive Advanced</DisplayName>
+        <DisplayVersion>V17 SP2</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G110M, G120, G120C, G120D, G120P, G115D</DisplayName>
+        <DisplayVersion>V17 SP2</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G130, G150, S120, S150, SINAMICS MV, S210</DisplayName>
+        <DisplayVersion>V17 SP2</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V17 Update 7</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V17 Update 6</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Professional</DisplayName>
+        <DisplayVersion>V17 Update 7</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.FB ID="0">
+    <AttributeList>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+  <Section Name="Input" />
+  <Section Name="Output" />
+  <Section Name="InOut" />
+  <Section Name="Static">
+    <Member Name="iRecipeToLoad" Datatype="Int"><AttributeList><BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute></AttributeList></Member>
+  </Section>
+  <Section Name="Temp" />
+  <Section Name="Constant">
+    <Member Name="iMode_ForceOpen" Datatype="Int">
+      <StartValue>2</StartValue>
+    </Member>
+  </Section>
+</Sections></Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>fbMain</Name>
+      <Number>5</Number>
+      <ProgrammingLanguage>LAD</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>IO processing block reads in the thermocouple and pressure transmitter readings into the program and outputs the valve control values. 
+
+Recipe assignment waits for input from the HMI to assign recipes to each press. 
+
+Press control FBs manage the sequencer and valve position control. </Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="3" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Call UId="21">
+      <CallInfo Name="fbInputOutputProcessing" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="22">
+          <Component Name="dbInputs_Instance" />
+        </Instance>
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="23">
+      <Powerrail />
+      <NameCon UId="21" Name="en" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="4" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="5" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="6" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Input/Output Processing </Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="8" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Open" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Press_32" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="Press_33" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="Press_34" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="Press_35" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="Press_36" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="DataLogging" />
+        <Component Name="bImportRecipes" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="28">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Coil" UId="29" />
+    <Part Name="Coil" UId="30" />
+    <Part Name="Coil" UId="31" />
+    <Part Name="Coil" UId="32" />
+    <Part Name="Coil" UId="33" />
+    <Part Name="Coil" UId="34" />
+  </Parts>
+  <Wires>
+    <Wire UId="35">
+      <Powerrail />
+      <NameCon UId="28" Name="in" />
+    </Wire>
+    <Wire UId="36">
+      <IdentCon UId="21" />
+      <NameCon UId="28" Name="operand" />
+    </Wire>
+    <Wire UId="37">
+      <NameCon UId="28" Name="out" />
+      <NameCon UId="29" Name="in" />
+      <NameCon UId="30" Name="in" />
+      <NameCon UId="31" Name="in" />
+      <NameCon UId="32" Name="in" />
+      <NameCon UId="33" Name="in" />
+      <NameCon UId="34" Name="in" />
+    </Wire>
+    <Wire UId="38">
+      <IdentCon UId="22" />
+      <NameCon UId="29" Name="operand" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="23" />
+      <NameCon UId="30" Name="operand" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="24" />
+      <NameCon UId="31" Name="operand" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="25" />
+      <NameCon UId="32" Name="operand" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="26" />
+      <NameCon UId="33" Name="operand" />
+    </Wire>
+    <Wire UId="43">
+      <IdentCon UId="27" />
+      <NameCon UId="34" Name="operand" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="9" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="B" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="D" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="FirstScan" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="22">
+      <Constant>
+        <ConstantType>Real</ConstantType>
+        <ConstantValue>50.0</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_32" />
+        <Component Name="udtActiveRecipe" />
+        <Component Name="rPlatenTemperature" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="24">
+      <Constant>
+        <ConstantType>Real</ConstantType>
+        <ConstantValue>50.0</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_33" />
+        <Component Name="udtActiveRecipe" />
+        <Component Name="rPlatenTemperature" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="26">
+      <Constant>
+        <ConstantType>Real</ConstantType>
+        <ConstantValue>50.0</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_34" />
+        <Component Name="udtActiveRecipe" />
+        <Component Name="rPlatenTemperature" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="28">
+      <Constant>
+        <ConstantType>Real</ConstantType>
+        <ConstantValue>50.0</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_35" />
+        <Component Name="udtActiveRecipe" />
+        <Component Name="rPlatenTemperature" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="30">
+      <Constant>
+        <ConstantType>Real</ConstantType>
+        <ConstantValue>50.0</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_36" />
+        <Component Name="udtActiveRecipe" />
+        <Component Name="rPlatenTemperature" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="32">
+      <Constant>
+        <ConstantType>Real</ConstantType>
+        <ConstantValue>50.0</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_29" />
+        <Component Name="udtActiveRecipe" />
+        <Component Name="rPlatenTemperature" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="34" />
+    <Part Name="Move" UId="35" DisabledENO="true">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="36" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="37" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="38" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="39" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="40" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+  </Parts>
+  <Wires>
+    <Wire UId="41">
+      <Powerrail />
+      <NameCon UId="34" Name="in" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="21" />
+      <NameCon UId="34" Name="operand" />
+    </Wire>
+    <Wire UId="43">
+      <NameCon UId="34" Name="out" />
+      <NameCon UId="35" Name="en" />
+      <NameCon UId="36" Name="en" />
+      <NameCon UId="37" Name="en" />
+      <NameCon UId="38" Name="en" />
+      <NameCon UId="39" Name="en" />
+      <NameCon UId="40" Name="en" />
+    </Wire>
+    <Wire UId="44">
+      <IdentCon UId="22" />
+      <NameCon UId="35" Name="in" />
+    </Wire>
+    <Wire UId="45">
+      <NameCon UId="35" Name="out1" />
+      <IdentCon UId="23" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="24" />
+      <NameCon UId="36" Name="in" />
+    </Wire>
+    <Wire UId="47">
+      <NameCon UId="36" Name="out1" />
+      <IdentCon UId="25" />
+    </Wire>
+    <Wire UId="48">
+      <IdentCon UId="26" />
+      <NameCon UId="37" Name="in" />
+    </Wire>
+    <Wire UId="49">
+      <NameCon UId="37" Name="out1" />
+      <IdentCon UId="27" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="28" />
+      <NameCon UId="38" Name="in" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="38" Name="out1" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="52">
+      <IdentCon UId="30" />
+      <NameCon UId="39" Name="in" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="39" Name="out1" />
+      <IdentCon UId="31" />
+    </Wire>
+    <Wire UId="54">
+      <IdentCon UId="32" />
+      <NameCon UId="40" Name="in" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="40" Name="out1" />
+      <IdentCon UId="33" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="E" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="10" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="11" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Initialize presses with 50% platen SP</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="12" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="FirstScan" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalConstant" UId="22">
+      <Constant Name="iMode_ForceOpen" />
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_29" />
+        <Component Name="iOperatingMode" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalConstant" UId="24">
+      <Constant Name="iMode_ForceOpen" />
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_32" />
+        <Component Name="iOperatingMode" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalConstant" UId="26">
+      <Constant Name="iMode_ForceOpen" />
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_33" />
+        <Component Name="iOperatingMode" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalConstant" UId="28">
+      <Constant Name="iMode_ForceOpen" />
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_34" />
+        <Component Name="iOperatingMode" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalConstant" UId="30">
+      <Constant Name="iMode_ForceOpen" />
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_35" />
+        <Component Name="iOperatingMode" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalConstant" UId="32">
+      <Constant Name="iMode_ForceOpen" />
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_36" />
+        <Component Name="iOperatingMode" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press33" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press34" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press35" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="37">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press36" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="38" />
+    <Part Name="Move" UId="39" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="40" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="41" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="42" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="43" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="44" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="SCoil" UId="45" />
+    <Part Name="SCoil" UId="46" />
+    <Part Name="SCoil" UId="47" />
+    <Part Name="SCoil" UId="48" />
+  </Parts>
+  <Wires>
+    <Wire UId="49">
+      <Powerrail />
+      <NameCon UId="38" Name="in" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="21" />
+      <NameCon UId="38" Name="operand" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="38" Name="out" />
+      <NameCon UId="39" Name="en" />
+      <NameCon UId="42" Name="en" />
+      <NameCon UId="45" Name="in" />
+      <NameCon UId="46" Name="in" />
+      <NameCon UId="47" Name="in" />
+      <NameCon UId="48" Name="in" />
+    </Wire>
+    <Wire UId="52">
+      <IdentCon UId="22" />
+      <NameCon UId="39" Name="in" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="39" Name="eno" />
+      <NameCon UId="40" Name="en" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="39" Name="out1" />
+      <IdentCon UId="23" />
+    </Wire>
+    <Wire UId="55">
+      <IdentCon UId="24" />
+      <NameCon UId="40" Name="in" />
+    </Wire>
+    <Wire UId="56">
+      <NameCon UId="40" Name="eno" />
+      <NameCon UId="41" Name="en" />
+    </Wire>
+    <Wire UId="57">
+      <NameCon UId="40" Name="out1" />
+      <IdentCon UId="25" />
+    </Wire>
+    <Wire UId="58">
+      <IdentCon UId="26" />
+      <NameCon UId="41" Name="in" />
+    </Wire>
+    <Wire UId="59">
+      <NameCon UId="41" Name="out1" />
+      <IdentCon UId="27" />
+    </Wire>
+    <Wire UId="60">
+      <IdentCon UId="28" />
+      <NameCon UId="42" Name="in" />
+    </Wire>
+    <Wire UId="61">
+      <NameCon UId="42" Name="eno" />
+      <NameCon UId="43" Name="en" />
+    </Wire>
+    <Wire UId="62">
+      <NameCon UId="42" Name="out1" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="63">
+      <IdentCon UId="30" />
+      <NameCon UId="43" Name="in" />
+    </Wire>
+    <Wire UId="64">
+      <NameCon UId="43" Name="eno" />
+      <NameCon UId="44" Name="en" />
+    </Wire>
+    <Wire UId="65">
+      <NameCon UId="43" Name="out1" />
+      <IdentCon UId="31" />
+    </Wire>
+    <Wire UId="66">
+      <IdentCon UId="32" />
+      <NameCon UId="44" Name="in" />
+    </Wire>
+    <Wire UId="67">
+      <NameCon UId="44" Name="out1" />
+      <IdentCon UId="33" />
+    </Wire>
+    <Wire UId="68">
+      <IdentCon UId="34" />
+      <NameCon UId="45" Name="operand" />
+    </Wire>
+    <Wire UId="69">
+      <IdentCon UId="35" />
+      <NameCon UId="46" Name="operand" />
+    </Wire>
+    <Wire UId="70">
+      <IdentCon UId="36" />
+      <NameCon UId="47" Name="operand" />
+    </Wire>
+    <Wire UId="71">
+      <IdentCon UId="37" />
+      <NameCon UId="48" Name="operand" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="13" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="14" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="15" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="16" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Initialize all presses to force open mode</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="17" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Call UId="21">
+      <CallInfo Name="fbHmiInputs" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="22">
+          <Component Name="dbHmiInputs_Instance" />
+        </Instance>
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="23">
+      <Powerrail />
+      <NameCon UId="21" Name="en" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="18" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="19" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="1A" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="1B" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Process HMI Commands</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="1C" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Scaling_DB_29" />
+        <Component Name="statPT_A" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scaling_DB_29" />
+        <Component Name="statPT_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press29" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press29" />
+        <Component Name="PID" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="EStop_Press29" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_29" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="bPress29StopCycle" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress29" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress29" />
+      </Symbol>
+    </Access>
+    <Call UId="30">
+      <CallInfo Name="fbPressControl" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="31">
+          <Component Name="dbPressControl_Press29" />
+        </Instance>
+        <Parameter Name="rInputPvValue_A" Section="Input" Type="Real" />
+        <Parameter Name="rInputPvValue_B" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TR" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BR" Section="Input" Type="Real" />
+        <Parameter Name="bDualControl" Section="Input" Type="Bool" />
+        <Parameter Name="rPidValvePositionOutput_A" Section="Input" Type="Real" />
+        <Parameter Name="rPidValvePositionOutput_B" Section="Input" Type="Real" />
+        <Parameter Name="bHWStopCycle" Section="Input" Type="Bool" />
+        <Parameter Name="rValvePosition_A" Section="Output" Type="Real" />
+        <Parameter Name="rValvePosition_B" Section="Output" Type="Real" />
+        <Parameter Name="bPidManualOverride_A" Section="Output" Type="Bool" />
+        <Parameter Name="bPidManualOverride_B" Section="Output" Type="Bool" />
+        <Parameter Name="hmiPress" Section="InOut" Type="&quot;UDT_HMI_PressControl&quot;" />
+        <Parameter Name="bHMIStopCycle" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="39">
+      <Powerrail />
+      <NameCon UId="30" Name="en" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="21" />
+      <NameCon UId="30" Name="rInputPvValue_A" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="22" />
+      <NameCon UId="30" Name="rInputPvValue_B" />
+    </Wire>
+    <Wire UId="42">
+      <OpenCon UId="32" />
+      <NameCon UId="30" Name="rInputTCValue_TL" />
+    </Wire>
+    <Wire UId="43">
+      <OpenCon UId="33" />
+      <NameCon UId="30" Name="rInputTCValue_BL" />
+    </Wire>
+    <Wire UId="44">
+      <OpenCon UId="34" />
+      <NameCon UId="30" Name="rInputTCValue_TR" />
+    </Wire>
+    <Wire UId="45">
+      <OpenCon UId="35" />
+      <NameCon UId="30" Name="rInputTCValue_BR" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="23" />
+      <NameCon UId="30" Name="bDualControl" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="24" />
+      <NameCon UId="30" Name="rPidValvePositionOutput_A" />
+    </Wire>
+    <Wire UId="48">
+      <OpenCon UId="36" />
+      <NameCon UId="30" Name="rPidValvePositionOutput_B" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="25" />
+      <NameCon UId="30" Name="bHWStopCycle" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="26" />
+      <NameCon UId="30" Name="hmiPress" />
+    </Wire>
+    <Wire UId="51">
+      <IdentCon UId="27" />
+      <NameCon UId="30" Name="bHMIStopCycle" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="30" Name="rValvePosition_A" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="30" Name="rValvePosition_B" />
+      <OpenCon UId="37" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="30" Name="bPidManualOverride_A" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="30" Name="bPidManualOverride_B" />
+      <OpenCon UId="38" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="1D" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="1E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="1F" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="20" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Press 29 Control</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="21" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Scaling_DB_32" />
+        <Component Name="statPT_A" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scaling_DB_32" />
+        <Component Name="statPT_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press32" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press32" />
+        <Component Name="PID" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="EStop_Press32" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_32" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="bPress32StopCycle" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress32" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress32" />
+      </Symbol>
+    </Access>
+    <Call UId="30">
+      <CallInfo Name="fbPressControl" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="31">
+          <Component Name="dbPressControl_Press32" />
+        </Instance>
+        <Parameter Name="rInputPvValue_A" Section="Input" Type="Real" />
+        <Parameter Name="rInputPvValue_B" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TR" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BR" Section="Input" Type="Real" />
+        <Parameter Name="bDualControl" Section="Input" Type="Bool" />
+        <Parameter Name="rPidValvePositionOutput_A" Section="Input" Type="Real" />
+        <Parameter Name="rPidValvePositionOutput_B" Section="Input" Type="Real" />
+        <Parameter Name="bHWStopCycle" Section="Input" Type="Bool" />
+        <Parameter Name="rValvePosition_A" Section="Output" Type="Real" />
+        <Parameter Name="rValvePosition_B" Section="Output" Type="Real" />
+        <Parameter Name="bPidManualOverride_A" Section="Output" Type="Bool" />
+        <Parameter Name="bPidManualOverride_B" Section="Output" Type="Bool" />
+        <Parameter Name="hmiPress" Section="InOut" Type="&quot;UDT_HMI_PressControl&quot;" />
+        <Parameter Name="bHMIStopCycle" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="39">
+      <Powerrail />
+      <NameCon UId="30" Name="en" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="21" />
+      <NameCon UId="30" Name="rInputPvValue_A" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="22" />
+      <NameCon UId="30" Name="rInputPvValue_B" />
+    </Wire>
+    <Wire UId="42">
+      <OpenCon UId="32" />
+      <NameCon UId="30" Name="rInputTCValue_TL" />
+    </Wire>
+    <Wire UId="43">
+      <OpenCon UId="33" />
+      <NameCon UId="30" Name="rInputTCValue_BL" />
+    </Wire>
+    <Wire UId="44">
+      <OpenCon UId="34" />
+      <NameCon UId="30" Name="rInputTCValue_TR" />
+    </Wire>
+    <Wire UId="45">
+      <OpenCon UId="35" />
+      <NameCon UId="30" Name="rInputTCValue_BR" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="23" />
+      <NameCon UId="30" Name="bDualControl" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="24" />
+      <NameCon UId="30" Name="rPidValvePositionOutput_A" />
+    </Wire>
+    <Wire UId="48">
+      <OpenCon UId="36" />
+      <NameCon UId="30" Name="rPidValvePositionOutput_B" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="25" />
+      <NameCon UId="30" Name="bHWStopCycle" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="26" />
+      <NameCon UId="30" Name="hmiPress" />
+    </Wire>
+    <Wire UId="51">
+      <IdentCon UId="27" />
+      <NameCon UId="30" Name="bHMIStopCycle" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="30" Name="rValvePosition_A" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="30" Name="rValvePosition_B" />
+      <OpenCon UId="37" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="30" Name="bPidManualOverride_A" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="30" Name="bPidManualOverride_B" />
+      <OpenCon UId="38" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="22" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="23" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="24" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="25" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Press 32 Control</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="26" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Scaling_DB_33" />
+        <Component Name="statPT_A" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scaling_DB_33" />
+        <Component Name="statPT_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press33" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press33" />
+        <Component Name="PID" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="EStop_Press33" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_33" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="bPress33StopCycle" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress33" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress33" />
+      </Symbol>
+    </Access>
+    <Call UId="30">
+      <CallInfo Name="fbPressControl" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="31">
+          <Component Name="dbPressControl_Press33" />
+        </Instance>
+        <Parameter Name="rInputPvValue_A" Section="Input" Type="Real" />
+        <Parameter Name="rInputPvValue_B" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TR" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BR" Section="Input" Type="Real" />
+        <Parameter Name="bDualControl" Section="Input" Type="Bool" />
+        <Parameter Name="rPidValvePositionOutput_A" Section="Input" Type="Real" />
+        <Parameter Name="rPidValvePositionOutput_B" Section="Input" Type="Real" />
+        <Parameter Name="bHWStopCycle" Section="Input" Type="Bool" />
+        <Parameter Name="rValvePosition_A" Section="Output" Type="Real" />
+        <Parameter Name="rValvePosition_B" Section="Output" Type="Real" />
+        <Parameter Name="bPidManualOverride_A" Section="Output" Type="Bool" />
+        <Parameter Name="bPidManualOverride_B" Section="Output" Type="Bool" />
+        <Parameter Name="hmiPress" Section="InOut" Type="&quot;UDT_HMI_PressControl&quot;" />
+        <Parameter Name="bHMIStopCycle" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="39">
+      <Powerrail />
+      <NameCon UId="30" Name="en" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="21" />
+      <NameCon UId="30" Name="rInputPvValue_A" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="22" />
+      <NameCon UId="30" Name="rInputPvValue_B" />
+    </Wire>
+    <Wire UId="42">
+      <OpenCon UId="32" />
+      <NameCon UId="30" Name="rInputTCValue_TL" />
+    </Wire>
+    <Wire UId="43">
+      <OpenCon UId="33" />
+      <NameCon UId="30" Name="rInputTCValue_BL" />
+    </Wire>
+    <Wire UId="44">
+      <OpenCon UId="34" />
+      <NameCon UId="30" Name="rInputTCValue_TR" />
+    </Wire>
+    <Wire UId="45">
+      <OpenCon UId="35" />
+      <NameCon UId="30" Name="rInputTCValue_BR" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="23" />
+      <NameCon UId="30" Name="bDualControl" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="24" />
+      <NameCon UId="30" Name="rPidValvePositionOutput_A" />
+    </Wire>
+    <Wire UId="48">
+      <OpenCon UId="36" />
+      <NameCon UId="30" Name="rPidValvePositionOutput_B" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="25" />
+      <NameCon UId="30" Name="bHWStopCycle" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="26" />
+      <NameCon UId="30" Name="hmiPress" />
+    </Wire>
+    <Wire UId="51">
+      <IdentCon UId="27" />
+      <NameCon UId="30" Name="bHMIStopCycle" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="30" Name="rValvePosition_A" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="30" Name="rValvePosition_B" />
+      <OpenCon UId="37" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="30" Name="bPidManualOverride_A" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="30" Name="bPidManualOverride_B" />
+      <OpenCon UId="38" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="27" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="28" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="29" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="2A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Press 33 Control</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="2B" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Scaling_DB_34" />
+        <Component Name="statPT_A" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scaling_DB_34" />
+        <Component Name="statPT_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="Scaling_DB_34" />
+        <Component Name="statTC_TL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="Scaling_DB_34" />
+        <Component Name="statTC_BL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="Scaling_DB_34" />
+        <Component Name="statTC_TR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="Scaling_DB_34" />
+        <Component Name="statTC_BR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press34" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press34" />
+        <Component Name="PID_PSI" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press34" />
+        <Component Name="PID_PSI_B" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="EStop_Press34" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_34" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="bPress34StopCycle" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress34" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress34_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress34" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress34_B" />
+      </Symbol>
+    </Access>
+    <Call UId="37">
+      <CallInfo Name="fbPressControl" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="38">
+          <Component Name="dbPressControl_Press34" />
+        </Instance>
+        <Parameter Name="rInputPvValue_A" Section="Input" Type="Real" />
+        <Parameter Name="rInputPvValue_B" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TR" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BR" Section="Input" Type="Real" />
+        <Parameter Name="bDualControl" Section="Input" Type="Bool" />
+        <Parameter Name="rPidValvePositionOutput_A" Section="Input" Type="Real" />
+        <Parameter Name="rPidValvePositionOutput_B" Section="Input" Type="Real" />
+        <Parameter Name="bHWStopCycle" Section="Input" Type="Bool" />
+        <Parameter Name="rValvePosition_A" Section="Output" Type="Real" />
+        <Parameter Name="rValvePosition_B" Section="Output" Type="Real" />
+        <Parameter Name="bPidManualOverride_A" Section="Output" Type="Bool" />
+        <Parameter Name="bPidManualOverride_B" Section="Output" Type="Bool" />
+        <Parameter Name="hmiPress" Section="InOut" Type="&quot;UDT_HMI_PressControl&quot;" />
+        <Parameter Name="bHMIStopCycle" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="39">
+      <Powerrail />
+      <NameCon UId="37" Name="en" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="21" />
+      <NameCon UId="37" Name="rInputPvValue_A" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="22" />
+      <NameCon UId="37" Name="rInputPvValue_B" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="23" />
+      <NameCon UId="37" Name="rInputTCValue_TL" />
+    </Wire>
+    <Wire UId="43">
+      <IdentCon UId="24" />
+      <NameCon UId="37" Name="rInputTCValue_BL" />
+    </Wire>
+    <Wire UId="44">
+      <IdentCon UId="25" />
+      <NameCon UId="37" Name="rInputTCValue_TR" />
+    </Wire>
+    <Wire UId="45">
+      <IdentCon UId="26" />
+      <NameCon UId="37" Name="rInputTCValue_BR" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="27" />
+      <NameCon UId="37" Name="bDualControl" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="28" />
+      <NameCon UId="37" Name="rPidValvePositionOutput_A" />
+    </Wire>
+    <Wire UId="48">
+      <IdentCon UId="29" />
+      <NameCon UId="37" Name="rPidValvePositionOutput_B" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="30" />
+      <NameCon UId="37" Name="bHWStopCycle" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="31" />
+      <NameCon UId="37" Name="hmiPress" />
+    </Wire>
+    <Wire UId="51">
+      <IdentCon UId="32" />
+      <NameCon UId="37" Name="bHMIStopCycle" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="37" Name="rValvePosition_A" />
+      <IdentCon UId="33" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="37" Name="rValvePosition_B" />
+      <IdentCon UId="34" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="37" Name="bPidManualOverride_A" />
+      <IdentCon UId="35" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="37" Name="bPidManualOverride_B" />
+      <IdentCon UId="36" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="2C" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="2D" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="2E" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="2F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Press 34 Control</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="30" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Scaling_DB_35" />
+        <Component Name="statPT_A" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scaling_DB_35" />
+        <Component Name="statPT_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="Scaling_DB_35" />
+        <Component Name="statTC_TL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="Scaling_DB_35" />
+        <Component Name="statTC_BL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="Scaling_DB_35" />
+        <Component Name="statTC_TR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="Scaling_DB_35" />
+        <Component Name="statTC_BR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press35" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press35" />
+        <Component Name="PID_PSI" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press35" />
+        <Component Name="PID_PSI_B" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="EStop_Press35" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_35" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="bPress35StopCycle" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress35" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress35_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress35" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress35_B" />
+      </Symbol>
+    </Access>
+    <Call UId="37">
+      <CallInfo Name="fbPressControl" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="38">
+          <Component Name="dbPressControl_Press35" />
+        </Instance>
+        <Parameter Name="rInputPvValue_A" Section="Input" Type="Real" />
+        <Parameter Name="rInputPvValue_B" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TR" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BR" Section="Input" Type="Real" />
+        <Parameter Name="bDualControl" Section="Input" Type="Bool" />
+        <Parameter Name="rPidValvePositionOutput_A" Section="Input" Type="Real" />
+        <Parameter Name="rPidValvePositionOutput_B" Section="Input" Type="Real" />
+        <Parameter Name="bHWStopCycle" Section="Input" Type="Bool" />
+        <Parameter Name="rValvePosition_A" Section="Output" Type="Real" />
+        <Parameter Name="rValvePosition_B" Section="Output" Type="Real" />
+        <Parameter Name="bPidManualOverride_A" Section="Output" Type="Bool" />
+        <Parameter Name="bPidManualOverride_B" Section="Output" Type="Bool" />
+        <Parameter Name="hmiPress" Section="InOut" Type="&quot;UDT_HMI_PressControl&quot;" />
+        <Parameter Name="bHMIStopCycle" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="39">
+      <Powerrail />
+      <NameCon UId="37" Name="en" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="21" />
+      <NameCon UId="37" Name="rInputPvValue_A" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="22" />
+      <NameCon UId="37" Name="rInputPvValue_B" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="23" />
+      <NameCon UId="37" Name="rInputTCValue_TL" />
+    </Wire>
+    <Wire UId="43">
+      <IdentCon UId="24" />
+      <NameCon UId="37" Name="rInputTCValue_BL" />
+    </Wire>
+    <Wire UId="44">
+      <IdentCon UId="25" />
+      <NameCon UId="37" Name="rInputTCValue_TR" />
+    </Wire>
+    <Wire UId="45">
+      <IdentCon UId="26" />
+      <NameCon UId="37" Name="rInputTCValue_BR" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="27" />
+      <NameCon UId="37" Name="bDualControl" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="28" />
+      <NameCon UId="37" Name="rPidValvePositionOutput_A" />
+    </Wire>
+    <Wire UId="48">
+      <IdentCon UId="29" />
+      <NameCon UId="37" Name="rPidValvePositionOutput_B" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="30" />
+      <NameCon UId="37" Name="bHWStopCycle" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="31" />
+      <NameCon UId="37" Name="hmiPress" />
+    </Wire>
+    <Wire UId="51">
+      <IdentCon UId="32" />
+      <NameCon UId="37" Name="bHMIStopCycle" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="37" Name="rValvePosition_A" />
+      <IdentCon UId="33" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="37" Name="rValvePosition_B" />
+      <IdentCon UId="34" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="37" Name="bPidManualOverride_A" />
+      <IdentCon UId="35" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="37" Name="bPidManualOverride_B" />
+      <IdentCon UId="36" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="31" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="32" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="33" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="34" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Press 35 Control</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="35" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Scaling_DB_36" />
+        <Component Name="statPT_A" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scaling_DB_36" />
+        <Component Name="statPT_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="Scaling_DB_36" />
+        <Component Name="statTC_TL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="Scaling_DB_36" />
+        <Component Name="statTC_BL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="Scaling_DB_36" />
+        <Component Name="statTC_TR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="Scaling_DB_36" />
+        <Component Name="statTC_BR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="DualPress" />
+        <Component Name="Press36" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press36" />
+        <Component Name="PID_PSI" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="dbPIDs" />
+        <Component Name="Press36" />
+        <Component Name="PID_PSI_B" />
+        <Component Name="rOutput" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="EStop_Press36" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="dbHMI" />
+        <Component Name="Press_36" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="bPress36StopCycle" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress36" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="rPidOverrideOutput" />
+        <Component Name="rPosPress36_B" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress36" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="dbPLC" />
+        <Component Name="PressControl" />
+        <Component Name="bPidManualOverride" />
+        <Component Name="bPidPress36_B" />
+      </Symbol>
+    </Access>
+    <Call UId="37">
+      <CallInfo Name="fbPressControl" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="38">
+          <Component Name="dbPressControl_Press36" />
+        </Instance>
+        <Parameter Name="rInputPvValue_A" Section="Input" Type="Real" />
+        <Parameter Name="rInputPvValue_B" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BL" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_TR" Section="Input" Type="Real" />
+        <Parameter Name="rInputTCValue_BR" Section="Input" Type="Real" />
+        <Parameter Name="bDualControl" Section="Input" Type="Bool" />
+        <Parameter Name="rPidValvePositionOutput_A" Section="Input" Type="Real" />
+        <Parameter Name="rPidValvePositionOutput_B" Section="Input" Type="Real" />
+        <Parameter Name="bHWStopCycle" Section="Input" Type="Bool" />
+        <Parameter Name="rValvePosition_A" Section="Output" Type="Real" />
+        <Parameter Name="rValvePosition_B" Section="Output" Type="Real" />
+        <Parameter Name="bPidManualOverride_A" Section="Output" Type="Bool" />
+        <Parameter Name="bPidManualOverride_B" Section="Output" Type="Bool" />
+        <Parameter Name="hmiPress" Section="InOut" Type="&quot;UDT_HMI_PressControl&quot;" />
+        <Parameter Name="bHMIStopCycle" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="39">
+      <Powerrail />
+      <NameCon UId="37" Name="en" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="21" />
+      <NameCon UId="37" Name="rInputPvValue_A" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="22" />
+      <NameCon UId="37" Name="rInputPvValue_B" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="23" />
+      <NameCon UId="37" Name="rInputTCValue_TL" />
+    </Wire>
+    <Wire UId="43">
+      <IdentCon UId="24" />
+      <NameCon UId="37" Name="rInputTCValue_BL" />
+    </Wire>
+    <Wire UId="44">
+      <IdentCon UId="25" />
+      <NameCon UId="37" Name="rInputTCValue_TR" />
+    </Wire>
+    <Wire UId="45">
+      <IdentCon UId="26" />
+      <NameCon UId="37" Name="rInputTCValue_BR" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="27" />
+      <NameCon UId="37" Name="bDualControl" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="28" />
+      <NameCon UId="37" Name="rPidValvePositionOutput_A" />
+    </Wire>
+    <Wire UId="48">
+      <IdentCon UId="29" />
+      <NameCon UId="37" Name="rPidValvePositionOutput_B" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="30" />
+      <NameCon UId="37" Name="bHWStopCycle" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="31" />
+      <NameCon UId="37" Name="hmiPress" />
+    </Wire>
+    <Wire UId="51">
+      <IdentCon UId="32" />
+      <NameCon UId="37" Name="bHMIStopCycle" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="37" Name="rValvePosition_A" />
+      <IdentCon UId="33" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="37" Name="rValvePosition_B" />
+      <IdentCon UId="34" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="37" Name="bPidManualOverride_A" />
+      <IdentCon UId="35" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="37" Name="bPidManualOverride_B" />
+      <IdentCon UId="36" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="36" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="37" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="38" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="39" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>FB: Press 36 Control</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="3A" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Call UId="21">
+      <CallInfo Name="fbDataLogging" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="22">
+          <Component Name="dbDataLogging_Instance" />
+        </Instance>
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="23">
+      <Powerrail />
+      <NameCon UId="21" Name="en" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="3B" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="3C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="3D" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="3E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Data Logging</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="3F" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource />
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="40" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="41" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="42" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="43" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="44" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="45" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FB>
+</Document>
