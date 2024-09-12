@@ -27,9 +27,13 @@ else:
     
     print(f"Importing modified Block_1 from: {xml_path}")
     try:
-        # Using string representations for ImportOptions and SWImportOptions
-        imported_block = software.get_blocks().Import(xml_path, "None", "IgnoreMissingReferencedObjects")
+        # Using the create method to import the block
+        imported_block = software.get_blocks().create(xml_path, "Block_1")
         print(f"Successfully imported block: {imported_block.name}")
+        
+        # Save the project after importing the block
+        tia_client.project.save()
+        print("Project saved successfully")
     except Exception as e:
         print(f"Error importing block: {e}")
 

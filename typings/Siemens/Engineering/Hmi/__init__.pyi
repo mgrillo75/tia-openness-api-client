@@ -34,19 +34,35 @@ class HmiTarget(
         """
         ...
     @property
-    def Cycles(self):
+    def HwUtilities(self):
         """
-        Composition of cycles
+        Hardware utilities
 
-        Get: Cycles(self: HmiTarget) -> CycleComposition
+        Get: HwUtilities(self: HmiTarget) -> HwUtilityComposition
         """
         ...
     @property
-    def GraphicLists(self):
+    def HistoryEntries(self):
         """
-        Composition of graphic lists
+        History entries
 
-        Get: GraphicLists(self: HmiTarget) -> GraphicListComposition
+        Get: HistoryEntries(self: HmiTarget) -> HistoryEntryComposition
+        """
+        ...
+    @property
+    def Languages(self):
+        """
+        Languages
+
+        Get: Languages(self: HmiTarget) -> LanguageComposition
+        """
+        ...
+    @property
+    def LanguageSettings(self):
+        """
+        Language settings
+
+        Get: LanguageSettings(self: HmiTarget) -> LanguageSettingComposition
         """
         ...
     @property

@@ -1,0 +1,362 @@
+{
+  "TIAPortalOpennessObjectModel": {
+    "TiaPortalSetting": {
+      "Settings": "(0..n)",
+      "TiaPortalSettingsFolder": {
+        "Folders": "(0..n)",
+        "SettingsFolders": "(0..n)",
+        "TiaPortal": {
+          "Projects": "(0..2)",
+          "GlobalLibraries": {
+            "count": "(0..n)",
+            "type": "GlobalLibrary",
+            "subtypes": ["UserGlobalLibrary", "CorporateGlobalLibrary", "SystemGlobalLibrary"]
+          }
+        }
+      }
+    },
+    "Project": {
+      "Devices": {
+        "count": "(0..n)",
+        "UngroupedDevicesGroup": {
+          "count": 1,
+          "type": "DeviceSystemGroup"
+        },
+        "DeviceGroups": {
+          "count": "(0..n)",
+          "types": ["DeviceUserGroup"]
+        },
+        "Device": {
+          "DeviceItems": {
+            "count": "(0..n)",
+            "type": "DeviceItem",
+            "SoftwareContainer": {
+              "type": "Service",
+              "Software": {
+                "count": 1,
+                "type": "Abstract",
+                "subtypes": ["PlcSoftware", "HmiSoftware", "HmiTarget"]
+              }
+            }
+          }
+        }
+      },
+      "Graphics": {
+        "count": "(0..n)",
+        "type": "MultiLingualGraphic"
+      },
+      "HwUtilities": {
+        "count": "(0..n)",
+        "type": "HardwareUtility"
+      },
+      "HistoryEntries": {
+        "count": "(0..n)",
+        "type": "HistoryEntry"
+      },
+      "Languages": {
+        "count": "(0..n)",
+        "type": "Language"
+      },
+      "LanguageSettings": {
+        "count": "(0..n)",
+        "type": "LanguageSetting"
+      },
+      "Subnets": {
+        "count": "(0..n)",
+        "type": "Subnet"
+      },
+      "UsedProducts": {
+        "count": "(0..n)",
+        "type": "UsedProduct"
+      },
+      "ProjectLibrary": {
+        "count": 1
+      }
+    },
+    "GlobalLibrary": {
+      "MasterCopyFolder": {
+        "count": 1,
+        "type": "Abstract",
+        "implementations": ["MasterCopySystemFolder", "MasterCopyUserFolder"],
+        "Folders": "(0..n)",
+        "MasterCopies": {
+          "count": "(0..n)",
+          "type": "MasterCopy"
+        }
+      },
+      "TypeFolder": {
+        "count": 1,
+        "type": "Abstract",
+        "implementations": ["LibraryTypeSystemFolder", "LibraryTypeUserFolder"],
+        "Types": {
+          "count": "(0..n)",
+          "type": "LibraryType",
+          "Versions": {
+            "count": "(1..n)",
+            "type": "LibraryTypeVersion"
+          }
+        },
+        "Folders": "(0..n)"
+      }
+    },
+    "HmiTarget": {
+      "Connections": {
+        "count": "(0..n)",
+        "type": "Connection"
+      },
+      "Cycles": {
+        "count": "(0..n)",
+        "type": "Cycle"
+      },
+      "GraphicLists": {
+        "count": "(0..n)",
+        "type": "GraphicList"
+      },
+      "ScreenFolder": {
+        "count": 1,
+        "implementation": "ScreenSystemFolder",
+        "type": "Abstract ScreenFolder",
+        "Folders": {
+          "count": "(0..n)",
+          "type": "ScreenUserFolder"
+        },
+        "Screens": {
+          "count": "(0..n)",
+          "type": "Screen"
+        }
+      },
+      "ScreenGlobalElements": {
+        "count": 1
+      },
+      "ScreenOverview": {
+        "count": 1
+      },
+      "ScreenPopupFolder": {
+        "count": 1,
+        "implementation": "ScreenPopupSystemFolder",
+        "type": "Abstract ScreenPopupFolder",
+        "Folders": {
+          "count": "(0..n)",
+          "type": "ScreenPopupUserFolder"
+        },
+        "ScreenPopups": {
+          "count": "(0..n)",
+          "type": "ScreenPopup"
+        }
+      },
+      "ScreenSlideinFolder": {
+        "count": 1,
+        "implementation": "ScreenSlideinSystemFolder",
+        "ScreenSlideins": {
+          "count": 4,
+          "type": "ScreenSlidein"
+        }
+      },
+      "ScreenTemplateFolder": {
+        "count": 1,
+        "implementation": "ScreenTemplateSystemFolder",
+        "type": "Abstract ScreenTemplateFolder",
+        "Folders": {
+          "count": "(0..n)",
+          "type": "ScreenTemplateUserFolder"
+        },
+        "ScreenTemplates": {
+          "count": "(0..n)",
+          "type": "ScreenTemplate"
+        }
+      },
+      "TagFolder": {
+        "count": 1,
+        "implementation": "TagSystemFolder",
+        "type": "Abstract TagFolder",
+        "Folders": {
+          "count": "(0..n)",
+          "type": "TagUserFolder"
+        },
+        "TagTables": {
+          "count": "(0..n)",
+          "type": "TagTable",
+          "Tags": {
+            "count": "(0..n)",
+            "type": "Tag"
+          }
+        },
+        "DefaultTagTable": {
+          "count": 1,
+          "type": "TagTable"
+        }
+      },
+      "TextLists": {
+        "count": "(0..n)",
+        "type": "TextList"
+      },
+      "VBScriptFolder": {
+        "count": 1,
+        "implementation": "VBScriptSystemFolder",
+        "type": "Abstract VBScriptFolder",
+        "Folders": {
+          "count": "(0..n)",
+          "type": "VBScriptUserFolder"
+        },
+        "VBScripts": {
+          "count": "(0..n)",
+          "type": "VBScript"
+        }
+      }
+    },
+    "HmiSoftware": {
+      "AlarmClasses": {
+        "count": "(0..n)",
+        "type": "AlarmClass"
+      },
+      "AlarmLogs": {
+        "count": "(0..n)",
+        "type": "AlarmLog"
+      },
+      "AnalogAlarms": {
+        "count": "(0..n)",
+        "type": "AnalogAlarm"
+      },
+      "DataLogs": {
+        "count": "(0..n)",
+        "type": "DataLog"
+      },
+      "DiscreteAlarms": {
+        "count": "(0..n)",
+        "type": "DiscreteAlarm"
+      },
+      "HmiConnections": {
+        "count": "(0..n)",
+        "type": "HmiConnection"
+      },
+      "HmiTagTables": {
+        "count": "(0..n)",
+        "type": "HmiTagTable"
+      },
+      "HmiTags": {
+        "count": "(0..n)",
+        "type": "HmiTags"
+      },
+      "RuntimeSettings": {},
+      "ScreensAndScreenItems": {
+        "count": "(0..n)",
+        "type": "Screens and ScreenItems"
+      }
+    },
+    "PlcSoftware": {
+      "PlcUnit": {},
+      "PlcUnitRelationComposition": {},
+      "BlockGroup": {
+        "count": 1,
+        "type": "PlcBlockSystemGroup",
+        "PlcBlockGroup": {
+          "type": "Abstract",
+          "Blocks": {
+            "count": "(0..n)",
+            "type": "PlcBlock",
+            "subtypes": {
+              "CodeBlock": {
+                "type": "Abstract",
+                "subtypes": ["FB", "FC", "OB"]
+              },
+              "DataBlock": {
+                "type": "Abstract",
+                "subtypes": ["InstanceDB", "GlobalDB", "ArrayDB"]
+              }
+            }
+          },
+          "Groups": "(0..n)"
+        },
+        "SystemBlockGroups": {
+          "count": "(0..1)",
+          "type": "PlcSystemBlockGroup",
+          "Groups": "(0..n)",
+          "Blocks": {
+            "count": "(0..n)",
+            "type": "CodeBlock"
+          }
+        }
+      },
+      "ExternalSourceGroup": {
+        "count": 1,
+        "implementation": "PlcExternalSourceSystemGroup",
+        "type": "Abstract PlcExternalSourceGroup",
+        "ExternalSources": {
+          "count": "(0..n)",
+          "type": "PlcExternalSource"
+        },
+        "Groups": "(0..n)",
+        "alternativeImplementation": "PlcExternalSourceUserGroup"
+      },
+      "TypeGroup": {
+        "count": 1,
+        "implementation": "PlcTypeSystemGroup",
+        "type": "Abstract PlcTypeGroup",
+        "Types": {
+          "count": "(0..n)",
+          "type": "PlcType",
+          "subtypes": ["PlcStruct"]
+        },
+        "Groups": "(0..n)",
+        "alternativeImplementation": "PlcTypeUserGroup"
+      },
+      "TagTableGroup": {
+        "count": 1,
+        "implementation": "PlcTagTableSystemGroup",
+        "type": "Abstract PlcTagTableGroup",
+        "TagTables": {
+          "count": "(0..n)",
+          "type": "PlcTagTable",
+          "Tags": {
+            "count": "(0..n)",
+            "type": "PlcTag"
+          },
+          "UserConstants": {
+            "count": "(0..n)",
+            "type": "PlcUserConstant"
+          }
+        },
+        "Groups": "(0..n)",
+        "alternativeImplementation": "PlcTagTableUserGroup",
+        "PlcConstant": {
+          "type": "Abstract",
+          "subtypes": ["PlcSystemConstant"]
+        }
+      },
+      "TechnologicalObjectGroup": {
+        "count": 1,
+        "implementation": "TechnologicalInstanceDBGroup",
+        "TechnologicalObjects": {
+          "count": "(0..1)",
+          "type": "TechnologicalInstanceDBComposition",
+          "Blocks": {
+            "count": "(0..n)",
+            "type": "TechnologicalInstanceDB (DataBlock)"
+          }
+        }
+      },
+      "WatchAndForceTableGroup": {
+        "count": 1,
+        "implementation": "PlcWatchAndForceTableSystemGroup",
+        "alternativeImplementation": "PlcWatchAndForceTableUserGroup",
+        "type": "Abstract PlcWatchAndForceTableGroup",
+        "Groups": "(0..n)",
+        "WatchTables": {
+          "count": "(0..n)",
+          "type": "PlcWatchTable"
+        }
+      },
+      "PlcForceTable": {
+        "ForceTables": {
+          "count": 1,
+          "type": "PlcWatchAndForceTableGroup"
+        },
+        "Entries": {
+          "count": "(0..n)",
+          "type": "PlcTableCommonEntry",
+          "subtypes": ["PlcForceTableEntry", "PlcWatchTableEntry"]
+        }
+      }
+    }
+  }
+}

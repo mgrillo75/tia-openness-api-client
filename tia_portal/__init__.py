@@ -20,19 +20,19 @@ cfg.load()
 from System.Diagnostics import Process  # type: ignore pylint: disable=import-error,wrong-import-position,wrong-import-order
 from System.IO import DirectoryInfo, FileInfo  # type: ignore pylint: disable=import-error,wrong-import-position,wrong-import-order
 
-dll_path = (
-    f"C:\\Program Files\\Siemens\\Automation\\"
-    f"Portal {cfg.VERSION.name}\\PublicAPI\\V{cfg.VERSION.value.replace('_', '.')}"
-    "\\Siemens.Engineering.dll"
-)
+# Update DLL path to reflect the new version (v17)
+DLL_PATH = "C:\\Program Files\\Siemens\\Automation\\Portal V17\\PublicAPI\\V17\\Siemens.Engineering.dll"
 
-if not os.path.exists(dll_path):
-    raise tia_e.LibraryDLLNotFound(f"Could not find {dll_path}")
+print(f"DLL Path: {DLL_PATH}")
 
+if not os.path.exists(DLL_PATH):
+    raise tia_e.LibraryDLLNotFound(f"Could not find {DLL_PATH}")
+
+# Handle new exceptions or changes in the API structure
 try:
-    clr.AddReference(dll_path)  # type: ignore pylint: disable=no-member
+    clr.AddReference(DLL_PATH)
 except Exception as e:
-    raise tia_e.LibraryImportError(f"Could not load {dll_path}") from e
+    raise tia_e.LibraryImportError(f"Could not load {DLL_PATH}") from e
 
 try:
     import Siemens.Engineering as tia  # type: ignore pylint: disable=import-error
@@ -91,6 +91,17 @@ except Exception as e:
         "Could not import Siemens.Engineering.Library.Types"
     ) from e
 
+try:
+    import Siemens.Engineering.Hmi as hmi  # type: ignore pylint: disable=import-error
+except Exception as e:
+    raise tia_e.LibraryImportError("Could not import Siemens.Engineering.Hmi") from e
+
+from enum import Enum
+
+class ExportOptions(Enum):
+    None_ = 0
+    WithDefaults = 1
+    WithReadOnly = 2
 
 class Device(CompositionItem):
     """Represents a TIA Portal device. This device can be a PLC, HMI, etc. A device is part of a composition of devices.
@@ -164,6 +175,359 @@ class Device(CompositionItem):
             DeviceItems: The items of the device a composition of items.
         """
         return DeviceItems(self)
+
+    def get_software(self) -> Union[PLCSoftware, HmiSoftware, None]:
+        if self.value is None:
+            raise tia_e.InvalidDevice("Value is None")
+
+        print(f"Device: {self.name}")
+        print(f"Device type: {self.TypeIdentifier}")
+
+        software_container: Optional[hwf.SoftwareContainer]
+        try:
+            software_container = self.value.GetService[hwf.SoftwareContainer]()
+        except Exception as e:
+            print(f"Error getting software container: {e}")
+            return None
+
+        if software_container is None:
+            print(f"No software container found for device {self.name}")
+            return None
+
+        software = software_container.Software
+        if software is None:
+            print(f"No software found in container for device {self.name}")
+            return None
+
+        software_type = type(software).__name__
+        print(f"Software type: {software_type}")
+
+        if isinstance(software, sw.PlcSoftware):
+            return PLCSoftware(self)
+        elif isinstance(software, hmi.HmiTarget):
+            return HmiSoftware(self)
+        else:
+            print(f"Unknown software type for device {self.name}: {software_type}")
+
+        return None
+
+    @property
+    def TypeIdentifier(self):
+        if self.value is None:
+            return None
+        return self.value.TypeIdentifier
+
+    @property
+    def HwUtilities(self):
+        return self.value.HwUtilities
+
+    @property
+    def HistoryEntries(self):
+        return self.value.HistoryEntries
+
+    @property
+    def Languages(self):
+        return self.value.Languages
+
+    @property
+    def LanguageSettings(self):
+        return self.value.LanguageSettings
+
+class HmiSoftware:
+    def __init__(self, parent):
+        self.parent = parent
+        try:
+            self.value = parent.value.GetService[hmi.HmiTarget]()
+            self.ScreenFolder = self.value.ScreenFolder
+            self.ScreenPopupFolder = self.value.ScreenPopupFolder
+        except Exception as e:
+            print(f"Error initializing HmiSoftware: {e}")
+            self.value = None
+            self.ScreenFolder = None
+            self.ScreenPopupFolder = None
+
+    def export_screen(self, screen, export_path):
+        screen.Export(FileInfo(export_path), ExportOptions.WithDefaults)
+
+class Devices(Composition[Device]):
+    """Represents a composition of devices. A device can be a PLC, HMI, etc.
+
+    Attributes:
+        parent (Project): The parent project.
+        value (Optional[hw.DeviceComposition]): The value of the composition of devices
+            and the connection to the C# library. So functions of the Openness API can be used on this variable.
+    """
+
+    def __init__(self, parent: Project) -> None:
+        """Initializes a composition of devices.
+
+        Parameters:
+            parent (Project): The parent project.
+
+        Raises:
+            tia_e.InvalidProject: If the parent value is None.
+        """
+        self.parent = parent
+        self.__value = None
+
+        if self.parent.value is None:
+            raise tia_e.InvalidProject("Project value is None")
+
+        value = self.parent.value.Devices
+
+        self.value = value
+
+    @property
+    def value(self) -> Optional[hw.DeviceComposition]:
+        return self.__value
+
+    @value.setter
+    def value(self, value: Optional[hw.DeviceComposition]) -> None:
+        self.__value = value
+
+    def find(self, name: str) -> Device:
+        """Finds a device by name.
+
+        Parameters:
+            name (str): The name of the device.
+
+        Raises:
+            tia_e.InvalidDeviceComposition: If the value is None.
+
+        Returns:
+            Device: The device with the given name.
+        """
+        if self.value is None:
+            raise tia_e.InvalidDeviceComposition("Value is None")
+
+        return Device(self, name)
+
+    def __iter__(self) -> Iterator[Device]:
+        """Iterates over all devices in the composition of devices.
+
+        Raises:
+            tia_e.InvalidDeviceComposition: If the value is None.
+
+        Yields:
+            Iterator[Device]: The next device in the composition of devices.
+        """
+        if self.value is None:
+            raise tia_e.InvalidDeviceComposition("Value is None")
+
+        device: hw.Device
+        for device in self.value:
+            yield Device(self, device.Name)
+
+    def create(
+        self,
+        HwTypeIdentifier: str,
+        name: str,
+        device_name: Optional[str],  # pylint: disable=invalid-name
+    ) -> Device:
+        """Creates a device in the composition of devices.
+
+        Parameters:
+            HwTypeIdentifier (str): The hardware type identifier of the device.
+                These can be found in the TIA Portal when creating a new device.
+            name (str): The name of the device (This can be found in the network tab of the TIA Portal)
+            device_name (Optional[str]): The device name of the device.
+                This is the name of the device in the TIA Portal. This is optional in some cases.
+
+        Raises:
+            tia_e.InvalidDeviceComposition: If the value is None.
+            tia_e.DeviceAlreadyExists: If the device already exists.
+
+        Returns:
+            Device: The created device.
+        """
+        if self.value is None:
+            raise tia_e.InvalidDeviceComposition("Value is None")
+
+        device = Device(self, name)
+
+        if device.value is not None:
+            raise tia_e.DeviceAlreadyExists(f"Device '{name}' already exists")
+
+        if device_name is None:
+            self.value.CreateWithItem(HwTypeIdentifier, name, None)
+        else:
+            self.value.CreateWithItem(HwTypeIdentifier, device_name, name)
+
+        return Device(self, name)
+
+    def create_PLC(  # pylint: disable=invalid-name
+        self, article_no: str, version: str, name: str, device_name: str
+    ) -> Device:
+        """Creates a PLC device in the composition of devices.
+
+        Parameters:
+            article_no (str): The article number of the PLC.
+                This can be found in the TIA Portal when creating a new device.
+            version (str): The version of the PLC. This can be found in the TIA Portal when creating a new device.
+            name (str): The name of the device (This can be found in the network tab of the TIA Portal)
+            device_name (str): The device name of the device. This is the name of the device in the TIA Portal.
+
+        Returns:
+            Device: The created device.
+        """
+        hw_id = f"OrderNumber:{article_no}/{version}"
+        return self.create(hw_id, name, device_name)
+
+    def create_HMI(
+        self, article_no: str, version: str, name: str
+    ) -> Device:  # pylint: disable=invalid-name
+        """Creates a HMI device in the composition of devices.
+
+        Parameters:
+            article_no (str): The article number of the HMI.
+                This can be found in the TIA Portal when creating a new device.
+            version (str): The version of the HMI. This can be found in the TIA Portal when creating a new device.
+            name (str): The name of the device (This can be found in the network tab of the TIA Portal)
+
+        Returns:
+            Device: The created device.
+        """
+        hw_id = f"OrderNumber:{article_no}/{version}"
+        return self.create(hw_id, name, None)
+
+class Device(CompositionItem):
+    """Represents a TIA Portal device. This device can be a PLC, HMI, etc. A device is part of a composition of devices.
+
+    Attributes:
+        parent (Devices): The parent composition of devices.
+        name (str): The name of the device.
+        value (Optional[hw.Device]): The value of the device and the connection to the C# library. So functions of the Openness API can be used on this variable.
+    """
+
+    def __init__(self, parent: Devices, name: str):
+        """Initializes a device.
+
+        Parameters:
+            parent (Devices): The parent composition of devices.
+            name (str): The name of the device.
+
+        Raises:
+            tia_e.InvalidDeviceComposition: If the parent value is None.
+        """
+        self.parent = parent
+        self.name = name
+        self.__value = None
+
+        if self.parent.value is None:
+            raise tia_e.InvalidDeviceComposition("Parent value is None")
+
+        value = self.parent.value.Find(name)
+
+        if value is None:
+            self.value = None
+        else:
+            self.value = value
+
+    @property
+    def value(self) -> Optional[hw.Device]:
+        return self.__value
+
+    @value.setter
+    def value(self, value: Optional[hw.Device]) -> None:
+        self.__value = value
+
+    def exists(self) -> bool:
+        """Checks if the device exists by checking if the value is None.
+
+        Returns:
+            bool: True if the device exists, False otherwise.
+        """
+        return self.value is not None
+
+    def remove(self) -> None:
+        """Removes the device from the composition of devices.
+
+        Raises:
+            tia_e.InvalidDevice: If the value is None.
+        """
+        if self.value is None:
+            raise tia_e.InvalidDevice("Value is None")
+
+        self.value.Delete()
+        self.value = None
+
+    def delete(self) -> None:
+        """Deletes the device from the composition of devices. This is an alias for remove."""
+        self.remove()
+
+    def get_items(self) -> DeviceItems:
+        """Gets the items of the device.
+
+        Returns:
+            DeviceItems: The items of the device a composition of items.
+        """
+        return DeviceItems(self)
+
+    def get_software(self) -> Union[PLCSoftware, HmiSoftware, None]:
+        if self.value is None:
+            raise tia_e.InvalidDevice("Value is None")
+
+        print(f"Device: {self.name}")
+        print(f"Device type: {self.TypeIdentifier}")
+
+        def find_software_container(item):
+            try:
+                software_container = item.GetService[hwf.SoftwareContainer]()
+                if software_container:
+                    return software_container
+            except Exception as e:
+                print(f"Error getting software container: {e}")
+            return None
+
+        software_container = find_software_container(self.value)
+        if not software_container and hasattr(self.value, 'DeviceItems'):
+            for sub_item in self.value.DeviceItems:
+                software_container = find_software_container(sub_item)
+                if software_container:
+                    break
+
+        if software_container is None:
+            print(f"No software container found for device {self.name}")
+            return None
+
+        software = software_container.Software
+        if software is None:
+            print(f"No software found in container for device {self.name}")
+            return None
+
+        software_type = type(software).__name__
+        print(f"Software type: {software_type}")
+
+        if isinstance(software, sw.PlcSoftware):
+            return PLCSoftware(self)
+        elif isinstance(software, hmi.HmiTarget):
+            return HmiSoftware(self)
+        else:
+            print(f"Unknown software type for device {self.name}: {software_type}")
+
+        return None
+
+    @property
+    def TypeIdentifier(self):
+        if self.value is None:
+            return None
+        return self.value.TypeIdentifier
+
+    @property
+    def HwUtilities(self):
+        return self.value.HwUtilities
+
+    @property
+    def HistoryEntries(self):
+        return self.value.HistoryEntries
+
+    @property
+    def Languages(self):
+        return self.value.Languages
+
+    @property
+    def LanguageSettings(self):
+        return self.value.LanguageSettings
 
 
 class Devices(Composition[Device]):
@@ -358,31 +722,49 @@ class DeviceItem(CompositionItem):
     def value(self, value: Optional[hw.DeviceItem]) -> None:
         self.__value = value
 
-    def get_software(self) -> Union[PLCSoftware, None]:
-        # TODO: Implement more different software types
-        """Gets the software of the device item.
-
-        Raises:
-            tia_e.InvalidDeviceItem: If the value is None.
-
-        Returns:
-            Union[PLCSoftware, None]: The software of the device item.
-        """
+    def get_software(self) -> Union[PLCSoftware, HmiSoftware, None]:
         if self.value is None:
-            raise tia_e.InvalidDeviceItem("Value is None")
+            raise tia_e.InvalidDevice("Value is None")
 
+        print(f"Device: {self.name}")
+        print(f"Device type: {self.TypeIdentifier}")
+
+        # Try to get HMI software first
+        hmi_target = self.value.GetService[hmi.HmiTarget]()
+        if hmi_target is not None:
+            print(f"HMI software found for device: {self.name}")
+            return HmiSoftware(self)
+
+        # If not HMI, try to get PLC software
         software_container: Optional[hwf.SoftwareContainer]
         software_container = self.value.GetService[hwf.SoftwareContainer]()  # type: ignore
 
         if software_container is None:
+            print(f"No software container found for device: {self.name}")
             return None
 
-        software_type = software_container.Software.ToString()
+        software = software_container.Software
+        if software is None:
+            print(f"No software found in container for device: {self.name}")
+            return None
 
-        if software_type == "Siemens.Engineering.SW.PlcSoftware":
+        software_type = type(software).__name__
+        print(f"Software type: {software_type}")
+
+        if isinstance(software, sw.PlcSoftware):
             return PLCSoftware(self)
+        else:
+            print(f"Unknown software type for device {self.name}: {software_type}")
 
         return None
+    
+    @property
+    def TypeIdentifier(self):
+        if self.value is None:
+            return None
+        type_id = self.value.TypeIdentifier
+        print(f"TypeIdentifier for device {self.name}: {type_id}")
+        return type_id
 
     def get_items(self) -> Optional[DeviceItems]:
         """Gets the device items of the device item.
@@ -897,7 +1279,7 @@ class PLCUserBlockGroups(Composition[PLCUserBlockGroup]):
             This is a software or a user block group.
         value (Optional[swb.PlcBlockUserGroupComposition]): The value of the user block groups
             and the connection to the C# library. So functions of the Openness
-            API can be used on this variable.
+                API can be used on this variable.
     """
 
     def __init__(self, parent: Union[PLCSoftware, PLCUserBlockGroup]) -> None:
@@ -2378,6 +2760,20 @@ class Project(TiaObject):
                     plcs.append(item)
 
         return plcs
+    
+    def get_devices(self) -> list[Device]:
+        """Gets all the devices in the project.
+
+        Raises:
+            tia_e.TIAInvalidProject: If the value is None.
+
+        Returns:
+            list[Device]: A list of all the devices in the project.
+        """
+        if self.value is None:
+            raise tia_e.TIAInvalidProject("Project is None")
+
+        return list(self.devices)
 
     @property
     def devices(self) -> Devices:
@@ -2395,6 +2791,9 @@ class Project(TiaObject):
 
     @devices.setter
     def devices(self, value: Any) -> None:
+        raise NotImplementedError(
+            "Devices can only be accessed through the devices property"
+        )
         raise NotImplementedError(
             "Devices can only be accessed through the devices property"
         )
